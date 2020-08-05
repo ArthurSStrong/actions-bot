@@ -13,7 +13,7 @@ WEBHOOK_URL = os.environ["WEBHOOK"]
 
 def main():
     """Start the script."""
-    list_reddit = ['doodles','DigitalPainting','drawing','Illustration','conceptart','sketchbooks','painting','Watercolor']
+    list_reddit = ['doodles','DigitalPainting','drawing','Illustration','conceptart','sketches','painting','Watercolor']
     print("Connecting to Reddit...")
     message, image_url = get_rising_submissions(random.choice(list_reddit))
 
