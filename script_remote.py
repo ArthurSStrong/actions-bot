@@ -5,6 +5,7 @@ them to a Discord webhook.
 
 import os
 import requests
+import random
 
 
 WEBHOOK_URL = os.environ["WEBHOOK"]
@@ -12,9 +13,9 @@ WEBHOOK_URL = os.environ["WEBHOOK"]
 
 def main():
     """Start the script."""
-
+    list_reddit = ['doodles','DigitalPainting','drawing','Illustration','conceptart']
     print("Connecting to Reddit...")
-    message, image_url = get_rising_submissions("pics")
+    message, image_url = get_rising_submissions(random.choice(list_reddit))
 
     print("Data received. Sending webhook...")
     post_message(message, image_url)
@@ -23,7 +24,7 @@ def main():
 def get_rising_submissions(subreddit):
     """Connects to the Reddit API and queries the top rising submission
     from the specified subreddit.
-
+    
     Parameters
     ----------
     subreddit : str
@@ -33,10 +34,12 @@ def get_rising_submissions(subreddit):
     -------
     tuple
         A tuple containing a formatted message and an image url.
-
+    
     """
 
-    url = f"https://www.reddit.com/r/{subreddit}/rising.json?limit=1"
+    endpoint = random.choice(['top','rising'])
+
+    url = f"https://www.reddit.com/r/{subreddit}/{endpoint}.json?limit=1"
     headers = {"User-Agent": "Reddit Rising Checker v1.0"}
 
     with requests.get(url, headers=headers) as response:
@@ -63,7 +66,7 @@ def get_rising_submissions(subreddit):
 
 def post_message(message, image_url):
     """Sends the formatted message to a Discord server.
-
+    
     Parameters
     ----------
     message : str
@@ -71,18 +74,18 @@ def post_message(message, image_url):
 
     image_url : str
         The URL used as the thumbnail.
-
+    
     """
 
     payload = {
-        "username": "Rising Posts",
+        "username": "Mapache.Bot",
         "embeds": [
             {
-                "title": "Top Rising Post",
+                "title": "Tendencia de Arte en Reddit",
                 "color": 102204,
                 "description": message,
                 "thumbnail": {"url": image_url},
-                "footer": {"text": "Powered by Elf Magic™"}
+                "footer": {"text": "Powered by Trashpandas™"}
             }
         ]
     }
